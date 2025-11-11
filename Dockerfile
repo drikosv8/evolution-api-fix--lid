@@ -30,6 +30,10 @@ RUN ./Docker/scripts/generate_database.sh
 
 RUN npm run build
 
+# 🧠 Corrige o bug do LID no Chatbot Service
+RUN sed -i "s/number: remoteJid.split('@')[0]/number: remoteJid.includes('@lid') ? remoteJid : remoteJid.split('@')[0]/" dist/api/integrations/chatbot/base-chatbot.service.js
+
+
 FROM node:24-alpine AS final
 
 RUN apk update && \
